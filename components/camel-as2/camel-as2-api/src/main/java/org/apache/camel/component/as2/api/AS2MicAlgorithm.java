@@ -20,6 +20,18 @@ interface Constants {
     String SHA_1_AS2_ALGORITHM_NAME = "sha1";
     String SHA_1_JDK_ALGORITHM_NAME = "SHA-1";
 
+    String SHA_224_AS2_ALGORITHM_NAME = "sha224";
+    String SHA_224_JDK_ALGORITHM_NAME = "SHA-224";
+
+    String SHA_256_AS2_ALGORITHM_NAME = "sha256";
+    String SHA_256_JDK_ALGORITHM_NAME = "SHA-256";
+
+    String SHA_384_AS2_ALGORITHM_NAME = "sha384";
+    String SHA_384_JDK_ALGORITHM_NAME = "SHA-384";
+
+    String SHA_512_AS2_ALGORITHM_NAME = "sha512";
+    String SHA_512_JDK_ALGORITHM_NAME = "SHA-512";
+
     String MD5_AS2_ALGORITHM_NAME = "md5";
     String MD5_JDK_ALGORITHM_NAME = "MD5";
 }
@@ -48,8 +60,17 @@ public enum AS2MicAlgorithm {
         switch (as2AlgorithmName) {
             case Constants.SHA_1_AS2_ALGORITHM_NAME:
                 return Constants.SHA_1_JDK_ALGORITHM_NAME;
+            case Constants.SHA_224_AS2_ALGORITHM_NAME:
+                return Constants.SHA_224_JDK_ALGORITHM_NAME;
+            case Constants.SHA_256_AS2_ALGORITHM_NAME:
+                return Constants.SHA_256_JDK_ALGORITHM_NAME;
+            case Constants.SHA_384_AS2_ALGORITHM_NAME:
+                return Constants.SHA_384_JDK_ALGORITHM_NAME;
+            case Constants.SHA_512_AS2_ALGORITHM_NAME:
+                return Constants.SHA_512_JDK_ALGORITHM_NAME;
             case Constants.MD5_AS2_ALGORITHM_NAME:
                 return Constants.MD5_JDK_ALGORITHM_NAME;
+
             default:
                 return null;
         }
@@ -61,6 +82,15 @@ public enum AS2MicAlgorithm {
                 return Constants.MD5_AS2_ALGORITHM_NAME;
             case Constants.SHA_1_JDK_ALGORITHM_NAME:
                 return Constants.SHA_1_AS2_ALGORITHM_NAME;
+            case Constants.SHA_224_JDK_ALGORITHM_NAME:
+                return Constants.SHA_224_AS2_ALGORITHM_NAME;
+            case Constants.SHA_384_JDK_ALGORITHM_NAME:
+                return Constants.SHA_384_AS2_ALGORITHM_NAME;
+            case Constants.SHA_256_JDK_ALGORITHM_NAME:
+                return Constants.SHA_256_AS2_ALGORITHM_NAME;
+            case Constants.SHA_512_JDK_ALGORITHM_NAME:
+                return Constants.SHA_512_AS2_ALGORITHM_NAME;
+
             default:
                 return null;
         }
