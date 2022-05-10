@@ -36,6 +36,16 @@ import org.bouncycastle.util.Store;
 
 public class MultipartSignedEntity extends MultipartMimeEntity {
 
+    private String signedData;
+
+    public void setSignedData(String signedData) {
+        this.signedData = signedData;
+    }
+
+    public String getSignedData() {
+        return this.signedData;
+    }
+
     public MultipartSignedEntity(MimeEntity data, AS2SignedDataGenerator signer, String signatureCharSet,
                                  String signatureTransferEncoding, boolean isMainBody, String boundary) throws HttpException {
         super(null, isMainBody, boundary);
@@ -52,25 +62,31 @@ public class MultipartSignedEntity extends MultipartMimeEntity {
     }
 
     public boolean isValid() {
+        String signedData = getSignedData();
         MimeEntity signedEntity = getSignedDataEntity();
         ApplicationPkcs7SignatureEntity applicationPkcs7SignatureEntity = getSignatureEntity();
 
-        if (signedEntity == null || applicationPkcs7SignatureEntity == null) {
+        if (applicationPkcs7SignatureEntity == null) {
             return false;
         }
 
         try {
+
             ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-            signedEntity.writeTo(outstream);
+            if (signedData == null) {
+                signedEntity.writeTo(outstream);
+            } else {
+                outstream.write(signedData.getBytes());
+            }
             CMSProcessable signedContent = new CMSProcessableByteArray(outstream.toByteArray());
 
             byte[] signature = applicationPkcs7SignatureEntity.getSignature();
             InputStream is = new ByteArrayInputStream(signature);
 
-            CMSSignedData signedData = new CMSSignedData(signedContent, is);
+            CMSSignedData cmsSignedData = new CMSSignedData(signedContent, is);
 
-            Store<X509CertificateHolder> store = signedData.getCertificates();
-            SignerInformationStore signers = signedData.getSignerInfos();
+            Store<X509CertificateHolder> store = cmsSignedData.getCertificates();
+            SignerInformationStore signers = cmsSignedData.getSignerInfos();
 
             for (SignerInformation signer : signers.getSigners()) {
                 @SuppressWarnings("unchecked")
