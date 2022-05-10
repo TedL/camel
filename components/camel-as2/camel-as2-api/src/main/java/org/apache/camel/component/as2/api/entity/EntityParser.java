@@ -461,6 +461,8 @@ public final class EntityParser {
                 inBuffer.bind(entity.getContent());
 
                 switch (contentType.getMimeType().toLowerCase()) {
+                    case AS2MimeType.TEXT_XML:
+                    case AS2MimeType.APPLICATION_XML:
                     case AS2MimeType.APPLICATION_EDIFACT:
                     case AS2MimeType.APPLICATION_EDI_X12:
                     case AS2MimeType.APPLICATION_EDI_CONSENT:
@@ -811,6 +813,8 @@ public final class EntityParser {
 
             MimeEntity entity = null;
             switch (entityContentType.getMimeType().toLowerCase()) {
+                case AS2MimeType.TEXT_XML:
+                case AS2MimeType.APPLICATION_XML:
                 case AS2MimeType.APPLICATION_EDIFACT:
                 case AS2MimeType.APPLICATION_EDI_X12:
                 case AS2MimeType.APPLICATION_EDI_CONSENT:

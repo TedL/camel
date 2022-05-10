@@ -140,6 +140,8 @@ public final class HttpMessageUtils {
         EntityParser.parseAS2MessageEntity(message);
         ApplicationEDIEntity ediEntity = null;
         switch (contentType.getMimeType().toLowerCase()) {
+            case AS2MimeType.TEXT_XML:
+            case AS2MimeType.APPLICATION_XML:
             case AS2MimeType.APPLICATION_EDIFACT:
             case AS2MimeType.APPLICATION_EDI_X12:
             case AS2MimeType.APPLICATION_EDI_CONSENT: {
@@ -236,6 +238,8 @@ public final class HttpMessageUtils {
         ContentType contentType = ContentType.parse(contentTypeString);
 
         switch (contentType.getMimeType().toLowerCase()) {
+            case AS2MimeType.APPLICATION_XML:
+            case AS2MimeType.TEXT_XML:
             case AS2MimeType.APPLICATION_EDIFACT:
             case AS2MimeType.APPLICATION_EDI_X12:
             case AS2MimeType.APPLICATION_EDI_CONSENT: {
@@ -262,7 +266,7 @@ public final class HttpMessageUtils {
 
                     throw new HttpException(
                             "Failed to extract EDI payload: invalid content type '" + mimeEntity.getContentTypeValue()
-                                            + "' for AS2 compressed and signed entity");
+                                    + "' for AS2 compressed and signed entity");
                 }
                 break;
             }

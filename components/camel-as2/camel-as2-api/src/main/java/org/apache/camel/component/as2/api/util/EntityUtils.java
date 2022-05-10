@@ -32,7 +32,9 @@ import org.apache.camel.component.as2.api.entity.ApplicationEDIConsentEntity;
 import org.apache.camel.component.as2.api.entity.ApplicationEDIEntity;
 import org.apache.camel.component.as2.api.entity.ApplicationEDIFACTEntity;
 import org.apache.camel.component.as2.api.entity.ApplicationEDIX12Entity;
+import org.apache.camel.component.as2.api.entity.ApplicationXmlEntity;
 import org.apache.camel.component.as2.api.entity.MimeEntity;
+import org.apache.camel.component.as2.api.entity.TextXmlEntity;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64InputStream;
 import org.apache.commons.codec.binary.Base64OutputStream;
@@ -202,6 +204,10 @@ public final class EntityUtils {
                 return new ApplicationEDIX12Entity(ediMessage, charset, contentTransferEncoding, isMainBody, filename);
             case AS2MediaType.APPLICATION_EDI_CONSENT:
                 return new ApplicationEDIConsentEntity(ediMessage, charset, contentTransferEncoding, isMainBody, filename);
+            case AS2MediaType.TEXT_XML:
+                return new TextXmlEntity(ediMessage, charset, contentTransferEncoding, isMainBody, filename);
+            case AS2MediaType.APPLICATION_XML:
+                return new ApplicationXmlEntity(ediMessage, charset, contentTransferEncoding, isMainBody, filename);
             default:
                 throw new CamelException("Invalid EDI entity mime type: " + ediMessageContentType.getMimeType());
         }

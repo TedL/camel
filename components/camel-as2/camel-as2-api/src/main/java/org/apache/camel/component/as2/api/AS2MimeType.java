@@ -53,5 +53,13 @@ public interface AS2MimeType {
      * Mime Type for Message/Disposition-Notification
      */
     String MESSAGE_DISPOSITION_NOTIFICATION = "message/disposition-notification";
+    /**
+     * Mime Type for Text/Xml Data
+     */
+    String TEXT_XML = "text/xml";
+    /**
+     * Mime Type for Application/Xml Data
+     */
+    String APPLICATION_XML = "application/xml";
 
 }
