@@ -55,6 +55,10 @@ public class AS2SessionInputBuffer implements SessionInputBuffer, BufferInfo {
     private boolean lastLineReadEnrichedByCarriageReturn;
     private boolean lastLineReadTerminatedByLineFeed;
 
+    public byte[] getBuffer() {
+        return buffer;
+    }
+
     public AS2SessionInputBuffer(final HttpTransportMetricsImpl metrics,
                                  final int buffersize,
                                  final int minChunkLimit,

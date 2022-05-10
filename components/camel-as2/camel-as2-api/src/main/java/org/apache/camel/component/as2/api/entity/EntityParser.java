@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.camel.CamelException;
 import org.apache.camel.component.as2.api.AS2Header;
@@ -595,6 +597,11 @@ public final class EntityParser {
             ContentType contentType = ContentType.create(AS2MimeType.MULTIPART_SIGNED, parameters);
             multipartSignedEntity.setContentType(contentType);
             multipartSignedEntity.setContentTransferEncoding(contentTransferEncoding);
+            if (multipartSignedEntity.getSignedData() == null) {
+                String signedData = parseSignedData(inbuffer.getBuffer(), boundary, inbuffer.getCharsetDecoder().charset());
+                multipartSignedEntity.setSignedData(signedData);
+            }
+
             return multipartSignedEntity;
 
         } catch (Exception e) {
@@ -1081,5 +1088,27 @@ public final class EntityParser {
             }
         }
         return fields;
+    }
+
+    private static String parseSignedData(byte[] inputData, String boundary, Charset charset) throws ParseException {
+
+        String str = new String(inputData, charset);
+        Matcher m = Pattern.compile(boundary + "-{0,2}\r?\n").matcher(str);
+        int startIndex = 0;
+        if (m.find()) {
+            startIndex = m.end(); //Find start index of the signed data
+        } else {
+            return null;
+        }
+
+        m = Pattern.compile("(?m)^(\r?\n)*^.*?" + boundary).matcher(str); //Matches the first empty line before the second boundary
+        int endIndex = 0;
+        if (m.find(startIndex)) {
+            endIndex = m.start(); //Find the end index of the signed data
+        } else {
+            return null;
+        }
+        return str.substring(startIndex, endIndex); //Extract the signed data
+
     }
 }
