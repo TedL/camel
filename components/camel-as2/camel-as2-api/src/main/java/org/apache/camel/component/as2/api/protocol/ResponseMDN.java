@@ -66,12 +66,12 @@ public class ResponseMDN implements HttpResponseInterceptor {
     public static final String BOUNDARY_PARAM_NAME = "boundary";
 
     private static final String DEFAULT_MDN_MESSAGE_TEMPLATE = "MDN for -\n"
-                                                               + " Message ID: $requestHeaders[\"Message-Id\"]\n"
-                                                               + "  Subject: $requestHeaders[\"Subject\"]\n"
-                                                               + "  Date: $requestHeaders[\"Date\"]\n"
-                                                               + "  From: $requestHeaders[\"AS2-From\"]\n"
-                                                               + "  To: $requestHeaders[\"AS2-To\"]\n"
-                                                               + "  Received on: $responseHeaders[\"Date\"]\n"
+                                                               + " Message ID: $requestHeaders[\"message-id\"]\n"
+                                                               + "  Subject: $requestHeaders[\"subject\"]\n"
+                                                               + "  Date: $requestHeaders[\"date\"]\n"
+                                                               + "  From: $requestHeaders[\"as2-from\"]\n"
+                                                               + "  To: $requestHeaders[\"as2-to\"]\n"
+                                                               + "  Received on: $responseHeaders[\"date\"]\n"
                                                                + " Status: $dispositionType \n";
 
     private static final Logger LOG = LoggerFactory.getLogger(ResponseMDN.class);
@@ -264,13 +264,13 @@ public class ResponseMDN implements HttpResponseInterceptor {
             context.put("request", request);
             Map<String, Object> requestHeaders = new HashMap<>();
             for (Header header : request.getAllHeaders()) {
-                requestHeaders.put(header.getName(), header.getValue());
+                requestHeaders.put(header.getName().toLowerCase(), header.getValue());
             }
             context.put("requestHeaders", requestHeaders);
 
             Map<String, Object> responseHeaders = new HashMap<>();
             for (Header header : response.getAllHeaders()) {
-                responseHeaders.put(header.getName(), header.getValue());
+                responseHeaders.put(header.getName().toLowerCase(), header.getValue());
             }
             context.put("responseHeaders", responseHeaders);
 
